@@ -1,0 +1,258 @@
+\documentclass[a4paper,11pt]{article}
+
+% Packages
+\usepackage[table,x11names]{xcolor}
+\usepackage{placeins}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+%%%
+\usepackage[square,numbers]{natbib}
+\bibliographystyle{abbrvnat}
+%%%
+\usepackage[french]{babel}
+\usepackage[final]{pdfpages}
+\usepackage[hmargin=2.75cm,vmargin=2.5cm]{geometry}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{cancel}
+\usepackage{marvosym}
+\usepackage{diagbox}
+\usepackage{multirow}
+\usepackage[nottoc]{tocbibind}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{enumitem}
+
+\definecolor{light-gray}{gray}{0.85}
+
+\newcommand{\Ccancel}[2][black]{\renewcommand\CancelColor{\color{light-gray}}\cancel{#2}}
+
+%%%%%%%%%%%%%%%%%%% Valeurs à modifier !!! %%%%%%%%%%%%%%%%%%
+\def \datered {29 mars 2022} % date de reddition
+\def \dated {04.04.2022} % du dd.mm.aa
+\def \datef {25.04.2022} % au dd.mm.aa 
+\def \nom {Wiggins} % Votre nom
+\def \prenom {\ Eliott} % Votre prénom
+\def \labo {Gestion créative des droits d’accès et
+	permissions dans Unix/Linux} % Intitulé du laboratoire
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Quelques modifications
+\setlength{\parskip}{1em} % Pour l'espace entre les paragraphes
+\frenchbsetup{StandardItemLabels=true, CompactItemize=false, ReduceListSpacing=true} % Pour les listes
+\def\UrlBreaks{\do\/\do-}  % Pour la présentation des longues URL dans la bibliographie
+\Urlmuskip=0mu plus 4mu    % idem
+\graphicspath{{figures/}}  % Pour directement chercher les figures dans le
+% fichier figures
+
+% Entête et bas de page
+\fancyhead[L]{\nom \ \prenom}
+\fancyhead[R]{Haute école de gestion Genève - \bsc{Informatique}}
+\fancyfoot[L]{63-22 Labo 2}
+\fancyfoot[C]{\thepage /  \pageref{LastPage}}
+\fancyfoot[R]{\today}
+\fancypagestyle{titlestyle}{
+	\fancyhf{}
+	\fancyfoot[C]{\thepage /  \pageref{LastPage}}
+	\renewcommand{\headrulewidth}{0pt}
+}
+\setlength{\headheight}{13.6pt}
+
+% Pour l'hypersetup (données/paramètres du fichier pdf)
+\hypersetup{
+	pdfauthor={\nom \prenom},
+	pdftitle={\labo},
+	pdfkeywords={},
+	pdfsubject={\labo},
+	pdfcreator={},
+	pdflang={French},
+	colorlinks=true,
+	linkcolor=blue,
+	citecolor=blue,
+	urlcolor=blue}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%to do list %%%%%%%%%%%%%%%%%%%%%%%%%
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+
+
+%%%%%%%%%%%%%%%%%%%%%%% Début du document %%%%%%%%%%%%%%%%%%
+\begin{document}
+	
+	\renewcommand{\tablename}{Tableau} % Tableau au lieu de Table
+	\renewcommand{\figurename}{Figure} % Graphique au lieu de Figure
+	\setlength{\parindent}{0pt}
+	
+
+	%%%%%%% Page de titre (optionnel)
+	\begin{titlepage}
+		\thispagestyle{titlestyle}
+		\newcommand{\HRule}{\rule{\linewidth}{0.2mm}} % Defines a new command for the horizontal lines, change thickness here
+		\begin{center} % Center everything on the page
+		{\Large Sécurité informatique - 63-22} \\[1.5cm]
+		\HRule \\[0.6cm]
+		
+		{\huge \bfseries \labo}\\[0.4cm] % Title of your  document
+		\HRule \\[1.5cm]
+		{\Large \prenom \ \bsc{\nom}}\\[0.2cm] % Your name
+		{\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+		\vfill % Fill the rest of the page with whitespace
+		\setcounter{page}{1}
+		\end{center}
+	\end{titlepage}
+	
+	
+	%%%%%%% Table des matières (obligatoire)
+	\pagestyle{fancy}
+	\setcounter{page}{2} % Changer 2 par 1 s'il n'y a pas de page de titre
+	\tableofcontents
+	\newpage
+	
+	
+	%%%%%%%%% Il faut commencer à rédiger le rapport ici !!!
+	
+	
+	
+	\section{Introduction }
+	Cette correction est basée sur une version plus facile du Labo 2 de linux/unix pour le 63-22. Si la connexion par ssh peut poser problème, il est recommandé de faire directement les manipulations dans le terminal
+	
+	Attention : IL PEUT Y AVOIR DES ERREURS DANS LA CORRECTION
+	\section{SSH}
+	J'utilise une machine virtuelle ubuntu server (donc pas d'interface graphique) et le WSL pour se connecter. 
+	
+	Le but de ssh (secure shell) est d'utiliser la ligne de commande à distance du "vrai serveur" (même principe que telnet mais le protocole ssh est sécurisé).
+	
+	Sur la machine virtuelle ubuntu, on effectue la commande \textit{ip a} (sans -) afin de voir quelle adresse ip cette machine possède. \textbf{Attention il faut avoir activé une interface bridge dans virtual box, une fois la machine virtuelle éteine : configuration, mode expert, réseau, ajout d'un 2e adaptateur réseau en mode "bridge" ou "accès par pont" en français}
+	
+	La machine virtuelle ubuntu server va me demander un login, je met le login configuré dans virtual box (de base c'est "vboxuser" et mdp:"changeme") Ici mon login est "eliott" et le mdp: "citron"
+	\begin{equation*}
+		\text{ubuntu \quad  login} : \quad eliott
+	\end{equation*}
+	\begin{equation*}
+		\text{Password :} \quad citron
+	\end{equation*}
+	\newline
+	\textit{Attention des fois il y a des problèmes de clavier pour les caractères types / \% etc.  } \newline
+	On laisse la machine allumée et on se dirige vers un terminal de notre machine, soit le cmd windows, soit le WSL (Windows SubLinux System). J'utilise ici le WSL.
+	
+	 
+	\section{Opérations}
+	1. Créez un répertoire (dans votre répertoire personnel) appelé Data.
+	
+	\textit{mkdir Data}
+	
+	\section{}
+	
+	\begin{equation}
+		\text{S1}>\textbf{enable}
+	\end{equation}
+	\begin{equation}
+		\text{S1} \#  \quad\textbf{delete vlan.dat}
+	\end{equation}
+	\begin{equation}
+		\text{S1} \# \quad \textbf{write erase}
+	\end{equation}
+	\begin{equation}
+		\text{S1} \# \quad \textbf{reload}
+	\end{equation}
+
+\subsection{}
+\begin{equation}
+	\text{Switch} \# \quad \textbf{configure terminal}
+\end{equation}
+\begin{equation}
+	\text{Switch(config)} \# \quad \textbf{hostname \textit{Switch-1}}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config)} \# \quad \textbf{service password-encryption}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config)} \# \quad \textbf{enable secret \textit{class}}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config)} \# \quad \textbf{no ip domain-lookup}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config)} \# \quad \textbf{ip default-gateway} \quad  192.168.1.1
+\end{equation}
+\subsection{}
+
+\subsubsection{}
+
+
+\begin{equation}
+	\text{Switch-1(config)} \# \quad \textbf{line console 0}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config-line)} \# \quad \textbf{ password \textit{cisco}}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config-line)} \# \quad \textbf{login}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config-line)} \# \quad \textbf{exit}
+\end{equation}
+
+\subsubsection{}
+\begin{equation}
+	\text{Switch-1(config)} \# \quad \textbf{line vty 0 15}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config-line)} \# \quad \textbf{ password \textit{cisco}}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config-line)} \# \quad \textbf{login}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config-line)} \# \quad \textbf{exit}
+\end{equation}
+
+	%%%%%
+	
+	
+\section{}
+\begin{equation}
+	\text{Switch-1(config)} \# \quad \textbf{interface vlan \textit{1}}
+\end{equation}
+\begin{equation}
+	\text{Switch-1(config-if)} \# \quad \textbf{description \textit{interface de gestion}}
+\end{equation}	
+\begin{equation}
+	\text{Switch-1(config-if)} \# \quad \textbf{ip address} \quad 192.168.1.6 \quad 255.255.255.0
+\end{equation}	
+\begin{equation}
+	\text{Switch-1(config-if)} \# \quad \textbf{no shutdown}
+\end{equation}	
+	%%%%%
+	\section{Vérification}
+\begin{equation}
+	\text{Switch-1(config)} \# \quad \textbf{do show running-config}
+\end{equation}
+ou alors : 
+\begin{equation}
+	\text{Switch-1} \# \quad \textbf{show running-config}
+\end{equation}
+	%%%%%
+	%\section{Références}
+	
+	%\section*{Annexe}
+	
+	
+	
+	
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Fin du document %%%%%%%%%%%%%%%%%%%%%%%%%%
